@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+from datetime import timedelta
 
 load_dotenv()
 
@@ -154,6 +155,7 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
+# Spectacular Config
 SPECTACULAR_SETTINGS = {
     'TITLE': 'PostFlowAPI',
     'DESCRIPTION': 'API para gerenciamento de posts do Correio',
@@ -175,3 +177,16 @@ CACHES = {
 # Celery Config
 CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
 CELERY_RESULT_BACKEND = CELERY_BROKER_URL
+
+# JWT Config
+# https://django-rest-framework-simplejwt.readthedocs.io/en/latest/settings.html
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=10),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    "ROTATE_REFRESH_TOKENS": False,
+    "BLACKLIST_AFTER_ROTATION": False,
+    "UPDATE_LAST_LOGIN": False,
+
+    "SLIDING_TOKEN_LIFETIME": timedelta(minutes=10),
+    "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=7),
+}
