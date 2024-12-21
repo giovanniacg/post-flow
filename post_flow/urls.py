@@ -8,10 +8,13 @@ from status.views import StatusViewSet
 from address.views import AddressViewSet
 from post.views import PostViewSet
 
+from users.views import UserViewSet
+
 router_v1 = routers.DefaultRouter()
 router_v1.register(r'status', StatusViewSet)
 router_v1.register(r'addresses', AddressViewSet)
 router_v1.register(r'posts', PostViewSet)
+router_v1.register(r'users', UserViewSet)
 
 
 urlpatterns = [

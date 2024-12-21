@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'status',
     'address',
     'post',
+    'users',
 ]
 
 MIDDLEWARE = [
