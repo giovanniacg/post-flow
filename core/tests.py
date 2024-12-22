@@ -5,6 +5,7 @@ from address.models import Address
 from status.models import Status
 from post.models import Post
 
+# TODO: Using the same base test case for all apps is not a good idea. You should create a base test case for each app.
 class BaseAPITestCase(APITestCase):
     def setUp(self):
         self.client = APIClient()
