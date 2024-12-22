@@ -1,6 +1,8 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 from drf_spectacular.utils import extend_schema
 
 from .permissions import IsOwnerOrAdmin
@@ -12,6 +14,13 @@ class PostViewSet(ModelViewSet):
     serializer_class = PostSerializer
     queryset = Post.objects.all()
     permission_classes = [IsOwnerOrAdmin]
+
+    @method_decorator(cache_page(60 * 5)) # 10 minutes
+    def list(self, request, *args, **kwargs):
+        """
+        Cache the list view (GET /posts) for 10 minutes.
+        """
+        return super().list(request, *args, **kwargs)
 
     def get_queryset(self):
         """
@@ -28,6 +37,7 @@ class PostViewSet(ModelViewSet):
         summary="Post details with statuses"
     )
     @action(detail=True, methods=['get'], permission_classes=[IsOwnerOrAdmin])
+    @method_decorator(cache_page(60 * 5)) # 10 minutes
     def status(self, request, pk=None):
         """
         Custom action to retrieve a post along with all its statuses.
