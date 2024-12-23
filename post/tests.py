@@ -5,6 +5,7 @@ from .models import Post
 from status.models import Status
 from address.models import Address
 from django.contrib.auth.models import User
+from django.test import override_settings
 
 class PostViewSetTests(APITestCase):
     def setUp(self):
@@ -36,12 +37,14 @@ class PostViewSetTests(APITestCase):
         response = self.client.get(self.post_urls['list'])
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
+    @override_settings(CACHES={'default': {'BACKEND': 'django.core.cache.backends.dummy.DummyCache'}})
     def test_list_posts_as_user(self):
         response = self.client.get(self.post_urls['list'])
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
         self.assertEqual(response.data[0]['user'], self.user.pk)
 
+    @override_settings(CACHES={'default': {'BACKEND': 'django.core.cache.backends.dummy.DummyCache'}})
     def test_list_posts_as_admin(self):
         self.client.force_authenticate(user=self.admin_user)
         response = self.client.get(self.post_urls['list'])
