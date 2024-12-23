@@ -1,7 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from celery import shared_task
 from status.models import Status
-from .models import Post, PostStatus
+from .models import Post
 
 
 @shared_task
@@ -20,8 +20,6 @@ def update_post_status(post_id):
 
         post.current_status = next_status
         post.save()
-
-        PostStatus.objects.create(post=post, status=next_status)
 
         return {
             "success": True,

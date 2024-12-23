@@ -7,8 +7,8 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from status.views import StatusViewSet
 from address.views import AddressViewSet
 from post.views import PostViewSet
-
 from users.views import UserViewSet
+from core.views import TaskStatusView
 
 router_v1 = routers.DefaultRouter()
 router_v1.register(r'status', StatusViewSet)
@@ -24,6 +24,7 @@ urlpatterns = [
     path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
     path('api/v1/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/v1/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/v1/tasks/<str:task_id>/', TaskStatusView.as_view(), name='task-status'),
     path('api/v1/', include(router_v1.urls)),
 ]
 
