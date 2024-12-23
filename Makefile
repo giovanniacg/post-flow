@@ -2,7 +2,7 @@ DOCKER_COMPOSE = docker-compose
 DJANGO_MANAGE = python manage.py
 PROJECT_NAME = post-flow
 
-.PHONY: help dev prod create-admin populate-db reset-db
+.PHONY: help dev prod create-admin populate-db reset-db test
 
 help:
 	@echo "Usage: make <target>"
@@ -13,10 +13,11 @@ help:
 	@echo "  create-admin - Create a superuser admin"
 	@echo "  populate-db  - Populate the database with initial data"
 	@echo "  reset-db     - Reset the database"
+	@echo "  test         - Run tests"
 
 dev:
 	@echo "Running Django in development mode..."
-	$(DOCKER_COMPOSE) up
+	$(DOCKER_COMPOSE) up web
 
 prod:
 	@echo "Coming soon..."
@@ -33,3 +34,6 @@ reset-db:
 	@echo "Resetting the database..."
 	$(DOCKER_COMPOSE) exec web $(DJANGO_MANAGE) flush --noinput
 
+test:
+	@echo "Running tests..."
+	$(DOCKER_COMPOSE) run --rm test

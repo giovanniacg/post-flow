@@ -16,6 +16,24 @@ services:
     depends_on:
       - db
       - redis
+      - celery
+      - celery-beat
+
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: django_tests
+    command: ./entrypoint.sh python manage.py test
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
+      - celery
+      - celery-beat
 
   db:
     image: postgres:15
