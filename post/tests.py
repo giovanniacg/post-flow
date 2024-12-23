@@ -6,6 +6,8 @@ from status.models import Status
 from address.models import Address
 from django.contrib.auth.models import User
 from django.test import override_settings
+from unittest.mock import patch
+from celery.result import AsyncResult
 
 class PostViewSetTests(APITestCase):
     def setUp(self):
@@ -30,6 +32,7 @@ class PostViewSetTests(APITestCase):
             'list': reverse('post-list'),
             'create': reverse('post-list'),
             'detail': reverse('post-detail', kwargs={'pk': self.post.pk}),
+            'next_status': reverse('post-next-status', kwargs={'pk': self.post.pk}),
         }
 
     def test_list_posts_as_unauthenticated_user(self):
@@ -94,3 +97,36 @@ class PostViewSetTests(APITestCase):
         response = self.client.delete(self.post_urls['detail'])
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(Post.objects.count(), self.total_posts - 1)
+
+    @patch('post.task.update_post_status.delay')
+    def test_next_status_as_admin(self, mock_update_post_status):
+        self.client.force_authenticate(user=self.admin_user)
+        mock_update_post_status.return_value = AsyncResult('test-task-id')
+
+        response = self.client.post(self.post_urls['next_status'])
+        self.assertEqual(response.status_code, status.HTTP_202_ACCEPTED)
+        mock_update_post_status.assert_called_once_with(self.post.id)
+        self.assertIn('task_id', response.data)
+        self.assertEqual(response.data['task_id'], 'test-task-id')
+
+    @patch('post.task.update_post_status.delay')
+    def test_next_status_as_user(self, mock_update_post_status):
+        mock_update_post_status.return_value = AsyncResult('test-task-id')
+
+        response = self.client.post(self.post_urls['next_status'])
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        mock_update_post_status.assert_not_called()
+
+    @patch('post.task.update_post_status.delay')
+    def test_next_status_task_execution(self, mock_update_post_status):
+        self.client.force_authenticate(user=self.admin_user)
+        mock_update_post_status.return_value = AsyncResult('test-task-id')
+
+        from post.task import update_post_status
+        update_post_status(self.post.id)
+
+        self.post.refresh_from_db()
+        self.assertEqual(self.post.current_status, self.other_status)
+
+        response = self.client.post(self.post_urls['next_status'])
+        self.assertEqual(response.status_code, status.HTTP_202_ACCEPTED)

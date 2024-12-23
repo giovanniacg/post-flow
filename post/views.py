@@ -59,7 +59,7 @@ class PostViewSet(ModelViewSet):
         Custom route to asynchronously update the status of a post to the next status.
         """
         try:
-            task = update_post_status.delay(pk)
+            task = update_post_status.delay(int(pk))
 
             return Response(
                 {"message": f"Task to update status for post {pk} has been triggered.", "task_id": task.id},
