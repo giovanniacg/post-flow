@@ -1,0 +1,209 @@
+[
+    {
+        "model": "auth.user",
+        "pk": 1,
+        "fields": {
+            "username": "user1",
+            "email": "user1@example.com",
+            "is_superuser": false,
+            "is_staff": false,
+            "password": "pbkdf2_sha256$260000$somehash"
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 2,
+        "fields": {
+            "username": "user2",
+            "email": "user2@example.com",
+            "is_superuser": false,
+            "is_staff": false,
+            "password": "pbkdf2_sha256$260000$somehash"
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 3,
+        "fields": {
+            "username": "user3",
+            "email": "user3@example.com",
+            "is_superuser": false,
+            "is_staff": false,
+            "password": "pbkdf2_sha256$260000$somehash"
+        }
+    },
+    {
+        "model": "address.address",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "street": "123 Main St",
+            "number": "101",
+            "complement": "Apt 1A",
+            "city": "Springfield",
+            "state": "IL",
+            "country": "USA",
+            "zip_code": "62701",
+            "created_at": "2021-01-01T00:00:00Z",
+            "updated_at": "2021-01-01T00:00:00Z"
+        }
+    },
+    {
+        "model": "address.address",
+        "pk": 2,
+        "fields": {
+            "user": 2,
+            "street": "456 Elm St",
+            "number": "202",
+            "complement": "Suite 2B",
+            "city": "Metropolis",
+            "state": "NY",
+            "country": "USA",
+            "zip_code": "10101",
+            "created_at": "2021-01-01T00:00:00Z",
+            "updated_at": "2021-01-01T00:00:00Z"
+        }
+    },
+    {
+        "model": "address.address",
+        "pk": 3,
+        "fields": {
+            "user": 3,
+            "street": "789 Oak St",
+            "number": "303",
+            "complement": "Floor 3",
+            "city": "Gotham",
+            "state": "NJ",
+            "country": "USA",
+            "zip_code": "07001",
+            "created_at": "2021-01-01T00:00:00Z",
+            "updated_at": "2021-01-01T00:00:00Z"
+        }
+    },
+    {
+        "model": "status.status",
+        "pk": 1,
+        "fields": {
+            "name": "Pending",
+            "description": "The post is awaiting processing.",
+            "order": 1,
+            "created_at": "2021-01-01T00:00:00Z",
+            "updated_at": "2021-01-01T00:00:00Z"
+        }
+    },
+    {
+        "model": "status.status",
+        "pk": 2,
+        "fields": {
+            "name": "In Transit",
+            "description": "The post is on its way.",
+            "order": 2,
+            "created_at": "2021-01-01T00:00:00Z",
+            "updated_at": "2021-01-01T00:00:00Z"
+        }
+    },
+    {
+        "model": "status.status",
+        "pk": 3,
+        "fields": {
+            "name": "Delivered",
+            "description": "The post has been delivered.",
+            "order": 3,
+            "created_at": "2021-01-01T00:00:00Z",
+            "updated_at": "2021-01-01T00:00:00Z"
+        }
+    },
+    {
+        "model": "post.post",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "current_status": 1,
+            "address": 1,
+            "created_at": "2021-01-01T00:00:00Z",
+            "updated_at": "2021-01-01T00:00:00Z"
+        }
+    },
+    {
+        "model": "post.post",
+        "pk": 2,
+        "fields": {
+            "user": 2,
+            "current_status": 2,
+            "address": 2,
+            "created_at": "2021-01-01T00:00:00Z",
+            "updated_at": "2021-01-01T00:00:00Z"
+        }
+    },
+    {
+        "model": "post.post",
+        "pk": 3,
+        "fields": {
+            "user": 3,
+            "current_status": 3,
+            "address": 3,
+            "created_at": "2021-01-01T00:00:00Z",
+            "updated_at": "2021-01-01T00:00:00Z"
+        }
+    },
+    {
+        "model": "post.poststatus",
+        "pk": 1,
+        "fields": {
+            "post": 1,
+            "status": 1,
+            "created_at": "2021-01-01T00:00:00Z",
+            "updated_at": "2021-01-01T00:00:00Z"
+        }
+    },
+    {
+        "model": "post.poststatus",
+        "pk": 2,
+        "fields": {
+            "post": 2,
+            "status": 1,
+            "created_at": "2021-01-01T00:00:00Z",
+            "updated_at": "2021-01-01T00:00:00Z"
+        }
+    },
+    {
+        "model": "post.poststatus",
+        "pk": 3,
+        "fields": {
+            "post": 2,
+            "status": 2,
+            "created_at": "2021-01-01T00:00:00Z",
+            "updated_at": "2021-01-01T00:00:00Z"
+        }
+    },
+    {
+        "model": "post.poststatus",
+        "pk": 4,
+        "fields": {
+            "post": 3,
+            "status": 1,
+            "created_at": "2021-01-01T00:00:00Z",
+            "updated_at": "2021-01-01T00:00:00Z"
+        }
+    },
+    {
+        "model": "post.poststatus",
+        "pk": 5,
+        "fields": {
+            "post": 3,
+            "status": 2,
+            "created_at": "2021-01-01T00:00:00Z",
+            "updated_at": "2021-01-01T00:00:00Z"
+        }
+    },
+    {
+        "model": "post.poststatus",
+        "pk": 6,
+        "fields": {
+            "post": 3,
+            "status": 3,
+            "created_at": "2021-01-01T00:00:00Z",
+            "updated_at": "2021-01-01T00:00:00Z"
+        }
+    }
+]
